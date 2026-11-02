@@ -1,0 +1,9 @@
+{
+  "name": "migration-guard",
+  "displayName": "Migration Guard",
+  "description": "Stops Claude from writing database migrations that lock tables, lose data, or cannot be rolled back. A PreToolUse hook checks every migration file before it is written and asks you to confirm risky operations; a reviewer agent explains the safe multi-step alternative.",
+  "version": "0.1.0",
+  "author": { "name": "Ahmad Kamran" },
+  "license": "MIT",
+  "keywords": ["database", "migrations", "postgres", "mysql", "rails", "django", "prisma", "alembic", "knex", "safety", "hooks"]
+}

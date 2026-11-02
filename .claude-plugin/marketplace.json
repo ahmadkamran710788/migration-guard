@@ -1,0 +1,15 @@
+{
+  "name": "claude-migration-guard",
+  "description": "Migration Guard: a Claude Code plugin that stops risky database migrations before they are written.",
+  "owner": {
+    "name": "Ahmad Kamran"
+  },
+  "plugins": [
+    {
+      "name": "migration-guard",
+      "source": "./plugins/migration-guard",
+      "description": "Stops Claude from writing database migrations that lock tables, lose data, or cannot be rolled back.",
+      "homepage": "https://github.com/ahmadkamran-dimedroppers/claude-migration-guard"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "description": "Checks migration files for locking, destructive, or irreversible operations before Claude writes them.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}\"/scripts/check_migration.py",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
