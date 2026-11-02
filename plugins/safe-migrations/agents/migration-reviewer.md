@@ -1,6 +1,6 @@
 ---
 name: migration-reviewer
-description: Reviews database migration files for production safety (table locks, long transactions, data loss, irreversibility, deploy ordering) and rewrites them as safe multi-step migrations. Use when the user asks to review, check, or make safe a migration, or when the migration-guard hook flagged a file.
+description: Reviews database migration files for production safety (table locks, long transactions, data loss, irreversibility, deploy ordering) and rewrites them as safe multi-step migrations. Use when the user asks to review, check, or make safe a migration, or when the safe-migrations hook flagged a file.
 tools: Read, Grep, Glob, Bash
 model: inherit
 ---

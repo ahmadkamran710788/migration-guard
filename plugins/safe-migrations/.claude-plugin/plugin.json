@@ -1,0 +1,23 @@
+{
+  "name": "safe-migrations",
+  "displayName": "Safe Migrations",
+  "description": "Stops Claude from writing database migrations that lock tables, lose data, or cannot be rolled back. A PreToolUse hook checks every migration file before it is written and asks you to confirm risky operations; a reviewer agent explains the safe multi-step alternative.",
+  "version": "0.2.0",
+  "author": { "name": "Ahmad Kamran" },
+  "homepage": "https://github.com/ahmadkamran710788/migration-guard",
+  "repository": "https://github.com/ahmadkamran710788/migration-guard",
+  "documentationUrl": "https://github.com/ahmadkamran710788/migration-guard/blob/main/plugins/safe-migrations/README.md",
+  "supportUrl": "https://github.com/ahmadkamran710788/migration-guard/issues",
+  "license": "MIT",
+  "icon": "./.claude-plugin/icon.png",
+  "keywords": ["database", "migrations", "postgres", "mysql", "rails", "django", "prisma", "alembic", "knex", "safety", "hooks"],
+  "userConfig": {
+    "mode": {
+      "type": "string",
+      "title": "Mode",
+      "description": "ask: prompt you when a migration is risky. deny: block the write and have Claude rewrite it. off: disable the check.",
+      "options": ["ask", "deny", "off"],
+      "default": "ask"
+    }
+  }
+}

@@ -1,10 +1,10 @@
 ---
 name: migration-review
-description: Review a database migration for production safety (locks, data loss, rollback, deploy ordering) and get a safe rewrite. Usage: /migration-guard:migration-review [path to migration file, or blank for the newest migration]
+description: Review a database migration for production safety (locks, data loss, rollback, deploy ordering) and get a safe rewrite. Usage: /safe-migrations:migration-review [path to migration file, or blank for the newest migration]
 argument-hint: "[migration file path]"
 ---
 
-Review the migration for production safety using the `migration-guard:migration-reviewer` agent.
+Review the migration for production safety using the `safe-migrations:migration-reviewer` agent.
 
 Target: $ARGUMENTS
 

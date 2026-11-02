@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-migration-guard: PreToolUse hook that inspects database migration files before
+safe-migrations: PreToolUse hook that inspects database migration files before
 Claude writes them and flags operations that lock tables, rewrite data, or
 cannot be rolled back.
 
@@ -8,8 +8,7 @@ Reads the hook JSON from stdin. If the file is not a migration, exits 0 silently
 If risky operations are found, asks the user for permission with a reason that
 lists every issue and how to fix it.
 
-Environment:
-  MIGRATION_GUARD_MODE   ask (default) | deny | off
+Usage: check_migration.py [ask|deny|off]    (default: ask)
 """
 import json
 import os
@@ -211,7 +210,7 @@ def analyze(content: str, path: str) -> list:
 def format_reason(path: str, issues: list, mode: str = "ask") -> str:
     dangers = [i for i in issues if i["severity"] == "danger"]
     warns = [i for i in issues if i["severity"] == "warn"]
-    lines = [f"migration-guard found {len(issues)} risk(s) in {os.path.basename(path)}:"]
+    lines = [f"safe-migrations found {len(issues)} risk(s) in {os.path.basename(path)}:"]
     for i in dangers:
         lines.append(f"  [DANGER] line {i['line']}: {i['message']}\n           Fix: {i['fix']}")
     for i in warns:
@@ -224,7 +223,7 @@ def format_reason(path: str, issues: list, mode: str = "ask") -> str:
 
 
 def main() -> int:
-    mode = os.environ.get("MIGRATION_GUARD_MODE", "ask").lower()
+    mode = (sys.argv[1] if len(sys.argv) > 1 else "ask").strip().lower()
     if mode == "off":
         return 0
     try:

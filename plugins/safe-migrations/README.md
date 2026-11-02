@@ -1,4 +1,4 @@
-# Migration Guard
+# Safe Migrations
 
 A Claude Code plugin that stops risky database migrations before they are written.
 
@@ -16,7 +16,7 @@ because they look like normal code. This plugin catches them at the moment Claud
   and Claude rewrites it using the fixes.
 - **Agent `migration-reviewer`.** A deep review that states the lock each statement takes, checks
   deploy ordering and rollback, and produces a safe multi-step rewrite in your framework's style.
-- **Skill `/migration-guard:migration-review [file]`.** Runs the agent on a file, or on the newest
+- **Skill `/safe-migrations:migration-review [file]`.** Runs the agent on a file, or on the newest
   migration if you give no path.
 
 ## Checks performed by the hook
@@ -38,46 +38,55 @@ because they look like normal code. This plugin catches them at the moment Claud
 
 From the marketplace (Claude Code 2.1.275 or later, one step):
 
-    /plugin install migration-guard --marketplace ahmadkamran710788/migration-guard
+    /plugin install safe-migrations --marketplace ahmadkamran710788/migration-guard
 
 Or in two steps:
 
     /plugin marketplace add ahmadkamran710788/migration-guard
-    /plugin install migration-guard@ahmadkamran710788
+    /plugin install safe-migrations@ahmadkamran710788
 
 Try it locally without installing:
 
-    claude --plugin-dir ./migration-guard
+    claude --plugin-dir ./plugins/safe-migrations
 
 ## Configure
 
-Set an environment variable before starting Claude Code:
+When you enable the plugin, Claude Code asks for one setting, **Mode**. Change it later in `/config`.
 
-| `MIGRATION_GUARD_MODE` | Behaviour |
+| Mode | Behaviour |
 |---|---|
 | `ask` (default) | Prompt you with the issues and let you decide |
 | `deny` | Block the write and send the issues to Claude so it rewrites the file |
 | `off` | Disable the hook |
 
+## What it runs
+
+One local script, `scripts/check_migration.sh`, which starts `scripts/check_migration.py` with
+Python 3. It reads the hook input from Claude Code on standard input and the plugin's own
+**Mode** option from the `CLAUDE_PLUGIN_OPTION_MODE` variable that Claude Code exports to hooks.
+It scans the migration text with regular expressions and prints a decision. It makes no network
+requests, reads no credentials, and writes nothing to disk. If Python 3 is missing it reports
+that once and lets the write proceed.
+
 ## Test
 
-    bash migration-guard/tests/run_tests.sh
+    bash plugins/safe-migrations/tests/run_tests.sh
 
 Feeds sample migrations through the hook and checks the decision for each.
 
 ## Publish
 
 This repo is laid out as a marketplace: `.claude-plugin/marketplace.json` at the root and the
-plugin under `plugins/migration-guard/`. It is hosted at
+plugin under `plugins/safe-migrations/`. It is hosted at
 https://github.com/ahmadkamran710788/migration-guard.
 
 To release a change: bump `version` in `.claude-plugin/plugin.json`, run
-`claude plugin validate plugins/migration-guard` and `claude plugin validate .` from the repo
-root, commit, and push. Users get the update with `/plugin update migration-guard`.
+`claude plugin validate plugins/safe-migrations` and `claude plugin validate .` from the repo
+root, commit, and push. Users get the update with `/plugin update safe-migrations`.
 
 ## Requirements
 
-Python 3 on the PATH (macOS and most Linux distributions have it).
+Python 3 and bash on the PATH. macOS and Linux have both; on Windows install Git Bash and Python 3.
 
 ## License
 

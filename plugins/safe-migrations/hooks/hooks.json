@@ -1,0 +1,17 @@
+{
+  "description": "Checks migration files for locking, destructive, or irreversible operations before Claude writes them. Runs one local script; no network access.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/scripts/check_migration.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
