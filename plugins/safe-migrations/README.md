@@ -13,7 +13,7 @@ because they look like normal code. This plugin catches them at the moment Claud
   (Rails, Django, Alembic, Prisma, Knex, Drizzle, Laravel, dbmate, Flyway, raw SQL), the file is
   checked for locking, destructive, and irreversible operations. If anything is found you get a
   permission prompt listing each issue, its line, and the fix. Approve to write it anyway, or deny
-  and Claude rewrites it using the fixes.
+  and Claude rewrites it using the fixes. Clean migrations are written without any prompt.
 - **Agent `migration-reviewer`.** A deep review that states the lock each statement takes, checks
   deploy ordering and rollback, and produces a safe multi-step rewrite in your framework's style.
 - **Skill `/safe-migrations:migration-review [file]`.** Runs the agent on a file, or on the newest
@@ -49,24 +49,18 @@ Try it locally without installing:
 
     claude --plugin-dir ./plugins/safe-migrations
 
-## Configure
+## Turn it off
 
-When you enable the plugin, Claude Code asks for one setting, **Mode**. Change it later in `/config`.
-
-| Mode | Behaviour |
-|---|---|
-| `ask` (default) | Prompt you with the issues and let you decide |
-| `deny` | Block the write and send the issues to Claude so it rewrites the file |
-| `off` | Disable the hook |
+Disable the plugin in `/plugin` when you do not want the check, for example while working on a
+throwaway database. There is nothing else to configure.
 
 ## What it runs
 
 One local script, `scripts/check_migration.sh`, which starts `scripts/check_migration.py` with
-Python 3. It reads the hook input from Claude Code on standard input and the plugin's own
-**Mode** option from the `CLAUDE_PLUGIN_OPTION_MODE` variable that Claude Code exports to hooks.
-It scans the migration text with regular expressions and prints a decision. It makes no network
-requests, reads no credentials, and writes nothing to disk. If Python 3 is missing it reports
-that once and lets the write proceed.
+Python 3. It reads the hook input from Claude Code on standard input, scans the migration text with
+regular expressions, and prints a permission decision. It makes no network requests, reads no
+environment variables or credentials, and writes nothing to disk. If Python 3 is missing it
+reports that once and lets the write proceed.
 
 ## Test
 
