@@ -1,16 +1,16 @@
-# claude-migration-guard
+# migration-guard
 
 A Claude Code plugin marketplace hosting **Migration Guard**, a plugin that stops Claude from
 writing database migrations that lock tables, lose data, or cannot be rolled back.
 
 ## Install
 
-    /plugin install migration-guard --marketplace ahmadkamran-dimedroppers/claude-migration-guard
+    /plugin install migration-guard --marketplace ahmadkamran710788/migration-guard
 
 Or in two steps:
 
-    /plugin marketplace add ahmadkamran-dimedroppers/claude-migration-guard
-    /plugin install migration-guard@claude-migration-guard
+    /plugin marketplace add ahmadkamran710788/migration-guard
+    /plugin install migration-guard@ahmadkamran710788
 
 ## Plugins
 

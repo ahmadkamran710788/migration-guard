@@ -38,12 +38,12 @@ because they look like normal code. This plugin catches them at the moment Claud
 
 From the marketplace (Claude Code 2.1.275 or later, one step):
 
-    /plugin install migration-guard --marketplace ahmadkamran-dimedroppers/claude-migration-guard
+    /plugin install migration-guard --marketplace ahmadkamran710788/migration-guard
 
 Or in two steps:
 
-    /plugin marketplace add ahmadkamran-dimedroppers/claude-migration-guard
-    /plugin install migration-guard@claude-migration-guard
+    /plugin marketplace add ahmadkamran710788/migration-guard
+    /plugin install migration-guard@ahmadkamran710788
 
 Try it locally without installing:
 
@@ -69,7 +69,7 @@ Feeds sample migrations through the hook and checks the decision for each.
 
 This repo is laid out as a marketplace: `.claude-plugin/marketplace.json` at the root and the
 plugin under `plugins/migration-guard/`. It is hosted at
-https://github.com/ahmadkamran-dimedroppers/claude-migration-guard.
+https://github.com/ahmadkamran710788/migration-guard.
 
 To release a change: bump `version` in `.claude-plugin/plugin.json`, run
 `claude plugin validate plugins/migration-guard` and `claude plugin validate .` from the repo
