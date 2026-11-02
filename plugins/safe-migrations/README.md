@@ -58,8 +58,7 @@ throwaway database. There is nothing else to configure.
 
 One local script, `scripts/check_migration.sh`, which starts `scripts/check_migration.py` with
 Python 3. It reads the hook input from Claude Code on standard input, scans the migration text with
-regular expressions, and prints a permission decision. It makes no network requests, reads no
-environment variables or credentials, and writes nothing to disk. If Python 3 is missing it
+regular expressions, and prints a permission decision. It makes no network requests, and writes nothing to disk. If Python 3 is missing it
 reports that once and lets the write proceed.
 
 ## Test

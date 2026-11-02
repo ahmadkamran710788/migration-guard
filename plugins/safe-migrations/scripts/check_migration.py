@@ -11,7 +11,6 @@ lists every issue and how to fix it.
 Usage: check_migration.py [ask|deny|off]    (default: ask)
 """
 import json
-import os
 import re
 import sys
 
@@ -210,7 +209,7 @@ def analyze(content: str, path: str) -> list:
 def format_reason(path: str, issues: list, mode: str = "ask") -> str:
     dangers = [i for i in issues if i["severity"] == "danger"]
     warns = [i for i in issues if i["severity"] == "warn"]
-    lines = [f"safe-migrations found {len(issues)} risk(s) in {os.path.basename(path)}:"]
+    lines = [f"safe-migrations found {len(issues)} risk(s) in {path.replace(chr(92), "/").rsplit("/", 1)[-1]}:"]
     for i in dangers:
         lines.append(f"  [DANGER] line {i['line']}: {i['message']}\n           Fix: {i['fix']}")
     for i in warns:
