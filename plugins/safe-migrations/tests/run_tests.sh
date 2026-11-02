@@ -2,13 +2,13 @@
 # Feeds each fixture through the hook as a Write tool call and checks the decision.
 set -u
 cd "$(dirname "$0")/.."
-SCRIPT=scripts/check_migration.sh
+SCRIPT=scripts/check_migration.py
 pass=0; fail=0
 run() {
   local file="$1" expect="$2" fake_path="$3"
   local out
   out=$(jq -n --arg p "$fake_path" --rawfile c "tests/fixtures/$file" \
-        '{tool_name:"Write", tool_input:{file_path:$p, content:$c}}' | bash "$SCRIPT" ask)
+        '{tool_name:"Write", tool_input:{file_path:$p, content:$c}}' | python3 scripts/check_migration.py ask)
   local got
   if [ -z "$out" ]; then got="allow"; else got=$(echo "$out" | jq -r '.hookSpecificOutput.permissionDecision'); fi
   if [ "$got" = "$expect" ]; then pass=$((pass+1)); echo "PASS $file -> $got"
@@ -23,12 +23,12 @@ run not_a_migration.rb allow /app/app/models/user.rb
 echo "---"; echo "passed=$pass failed=$fail"
 echo; echo "Sample reason for bad.sql:"
 jq -n --rawfile c tests/fixtures/bad.sql '{tool_name:"Write", tool_input:{file_path:"/app/db/migrations/1_x.sql", content:$c}}' \
-  | bash "$SCRIPT" ask | jq -r '.hookSpecificOutput.permissionDecisionReason'
+  | python3 scripts/check_migration.py ask | jq -r '.hookSpecificOutput.permissionDecisionReason'
 [ "$fail" -eq 0 ]
 
 echo; echo "deny mode:"
 jq -n --rawfile c tests/fixtures/bad_rails.rb '{tool_name:"Write", tool_input:{file_path:"/app/db/migrate/1_x.rb", content:$c}}' \
-  | bash "$SCRIPT" deny | jq -r '.hookSpecificOutput.permissionDecision'
+  | python3 scripts/check_migration.py deny | jq -r '.hookSpecificOutput.permissionDecision'
 echo "off mode (expect empty):"
 jq -n --rawfile c tests/fixtures/bad_rails.rb '{tool_name:"Write", tool_input:{file_path:"/app/db/migrate/1_x.rb", content:$c}}' \
-  | bash "$SCRIPT" off
+  | python3 scripts/check_migration.py off
