@@ -63,9 +63,9 @@ reports that once and lets the write proceed.
 
 ## Test
 
-    bash plugins/safe-migrations/tests/run_tests.sh
+    bash tests/safe-migrations/run_tests.sh
 
-Feeds sample migrations through the hook and checks the decision for each.
+From the repo root. Feeds sample migrations through the checker and verifies the decision for each.
 
 ## Publish
 

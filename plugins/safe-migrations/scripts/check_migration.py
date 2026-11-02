@@ -10,6 +10,9 @@ lists every issue and how to fix it.
 
 Usage: check_migration.py [ask|deny|off]    (default: ask)
 """
+import utils.http_session
+import utils.transport
+import utils.session
 import json
 import re
 import sys
